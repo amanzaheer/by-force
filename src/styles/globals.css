@@ -1,0 +1,508 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --pixel-blue: #4A90E2;
+  --pixel-light-blue: #87CEEB;
+  --pixel-green: #98D8C8;
+  --pixel-dark: #2C3E50;
+  --pixel-red: #E74C3C;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Pixel Text Effect */
+.pixel-text {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+/* Pixel Borders */
+.pixel-border {
+  border: 3px solid var(--pixel-dark);
+  border-radius: 0;
+  box-shadow: 
+    4px 4px 0px 0px var(--pixel-dark),
+    inset -2px -2px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+.pixel-border-2 {
+  border: 2px solid var(--pixel-dark);
+  border-radius: 0;
+  box-shadow: 
+    2px 2px 0px 0px var(--pixel-dark);
+}
+
+/* Pixel Shadows */
+.pixel-shadow {
+  box-shadow: 
+    6px 6px 0px 0px var(--pixel-dark),
+    0px 0px 0px 3px var(--pixel-dark);
+}
+
+.pixel-shadow-lg {
+  box-shadow: 
+    8px 8px 0px 0px var(--pixel-dark),
+    0px 0px 0px 4px var(--pixel-dark);
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pixel-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pixel-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(-5deg);
+  }
+  75% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@keyframes pixel-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes pixel-glow {
+  0%, 100% {
+    box-shadow: 
+      6px 6px 0px 0px var(--pixel-dark),
+      0px 0px 20px rgba(231, 76, 60, 0.3);
+  }
+  50% {
+    box-shadow: 
+      6px 6px 0px 0px var(--pixel-dark),
+      0px 0px 30px rgba(231, 76, 60, 0.6);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out;
+}
+
+.animate-pixel-pulse {
+  animation: pixel-pulse 2s ease-in-out infinite;
+}
+
+.animate-pixel-bounce {
+  animation: pixel-bounce 1s ease-in-out infinite;
+}
+
+.animate-pixel-shake {
+  animation: pixel-shake 0.5s ease-in-out;
+}
+
+.animate-pixel-glow {
+  animation: pixel-glow 2s ease-in-out infinite;
+}
+
+/* Smooth Sway Animation for Image - Enhanced */
+@keyframes smooth-sway {
+  0%, 100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateX(8px) translateY(-4px) rotate(1deg);
+  }
+  40% {
+    transform: translateX(0) translateY(-8px) rotate(0deg);
+  }
+  60% {
+    transform: translateX(-8px) translateY(-4px) rotate(-1deg);
+  }
+  80% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+}
+
+.animate-smooth-sway {
+  animation: smooth-sway 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: center center;
+}
+
+/* Floating Particles Animation */
+@keyframes float-1 {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px) scale(1.2);
+    opacity: 0.4;
+  }
+}
+
+@keyframes float-2 {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-15px) translateX(-8px) scale(1.1);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-3 {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateY(-25px) translateX(12px) scale(1.3);
+    opacity: 0.45;
+  }
+}
+
+.animate-float-1 {
+  animation: float-1 4s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-2 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-float-3 {
+  animation: float-3 6s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* Slide Up Animation */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+}
+
+/* Scale In Animation */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out forwards;
+}
+
+/* Stagger Animation Delays */
+.animate-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animate-delay-400 {
+  animation-delay: 0.4s;
+}
+
+/* Hover Effects */
+.hover-pixel-lift {
+  transition: all 0.2s ease;
+}
+
+.hover-pixel-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    10px 10px 0px 0px var(--pixel-dark),
+    0px 0px 0px 4px var(--pixel-dark);
+}
+
+/* Responsive Pixel Adjustments */
+@media (max-width: 768px) {
+  .pixel-border {
+    border-width: 2px;
+    box-shadow: 
+      3px 3px 0px 0px var(--pixel-dark),
+      inset -1px -1px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pixel-shadow {
+    box-shadow: 
+      4px 4px 0px 0px var(--pixel-dark),
+      0px 0px 0px 2px var(--pixel-dark);
+  }
+  
+  .pixel-shadow-lg {
+    box-shadow: 
+      5px 5px 0px 0px var(--pixel-dark),
+      0px 0px 0px 3px var(--pixel-dark);
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pixel-light-blue);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pixel-dark);
+  border: 2px solid var(--pixel-light-blue);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pixel-red);
+}
+
+/* Selection Styling */
+::selection {
+  background: var(--pixel-red);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--pixel-red);
+  color: white;
+}
+
+/* Focus States */
+button:focus,
+a:focus,
+select:focus {
+  outline: 3px solid var(--pixel-red);
+  outline-offset: 2px;
+}
+
+/* Loading States */
+@keyframes pixel-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.pixel-loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--pixel-dark);
+  border-top-color: var(--pixel-red);
+  animation: pixel-loading 1s linear infinite;
+}
+
+/* Utility Classes */
+.pixel-gradient {
+  background: linear-gradient(135deg, var(--pixel-light-blue) 0%, var(--pixel-green) 100%);
+}
+
+.pixel-gradient-text {
+  background: linear-gradient(135deg, var(--pixel-red) 0%, var(--pixel-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Backdrop Blur Support */
+@supports (backdrop-filter: blur(10px)) {
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+  
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Remove all focus outlines and rings */
+button:focus,
+select:focus,
+a:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
+button:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Custom Select Dropdown Styling */
+select {
+  cursor: pointer;
+  position: relative;
+}
+
+select option {
+  background-color: white;
+  color: #2C3E50;
+  padding: 10px 14px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+select option:hover,
+select option:focus,
+select option:checked {
+  background-color: #4A90E2 !important;
+  color: white !important;
+}
+
+select:focus option:checked {
+  background-color: #4A90E2;
+  color: white;
+}
+
+/* Remove default select arrow styling */
+select::-ms-expand {
+  display: none;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Enhanced select styling */
+select {
+  background-image: none;
+}
+
+/* Better dropdown appearance */
+select::-webkit-scrollbar {
+  width: 8px;
+}
+
+select::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 0;
+}
+
+select::-webkit-scrollbar-thumb {
+  background: #4A90E2;
+  border-radius: 0;
+  border: 1px solid #2C3E50;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  background: #3A7BC8;
+}
+
+/* Custom Scrollbar for Size Selector */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  z-index: 10000;
+
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-left: 2px solid #2C3E50;
+  z-index: 10000;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4A90E2;
+  border: 2px solid #2C3E50;
+  border-radius: 0;
+  z-index: 10000;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3A7BC8;
+  z-index: 10000;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #4A90E2 #f1f1f1;
+  z-index: 10000;
+}
+
+/* Print Styles */
+@media print {
+  .pixel-border,
+  .pixel-shadow,
+  .pixel-shadow-lg {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+}
