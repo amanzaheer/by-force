@@ -45,7 +45,7 @@ export default function HeroSection({ features }) {
       className="pt-8 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center  rounded-2xl  overflow-hidden relative bg-[#57D5E6] ">
+        <div className="grid lg:grid-cols-2 gap-1 lg:gap-12 items-center  rounded-2xl  overflow-hidden relative bg-[#57D5E6] ">
           {/* Decorative Background Elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl"></div>
@@ -55,7 +55,7 @@ export default function HeroSection({ features }) {
             {/* Headline - Typewriter Effect with Enhanced Styling */}
             <div className="space-y-4">
               <div className=" rounded-xl p-5 md:p-6 ">
-                <h2 className="text-3xl  font-extrabold text-[#2C3E50] pixel-text leading-tight uppercase min-h-[6rem] md:min-h-[8rem]">
+                <h2 className="text-3xl  font-extrabold text-[#2C3E50] pixel-text leading-tight uppercase min-h-[12rem] md:min-h-[8rem]">
                   <span className="text-[#4A90E2] font-extrabold ">{displayedText}</span>
                   {showCursor && <span className="animate-pulse text-[#E74C3C]">|</span>}
                 </h2>
@@ -121,7 +121,7 @@ export default function HeroSection({ features }) {
           </div>
 
           {/* Right Image Section - Enhanced with Frame */}
-          <div className="relative z-10 flex justify-center items-center w-full h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] p-4 md:p-8">
+          <div className="relative z-10 flex justify-center items-center w-full h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] p-8 md:p-8">
             <div className="relative w-full max-w-lg">
               {/* Decorative Frame */}
               <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-br from-white/20 to-transparent rounded-2xl blur-xl"></div>
