@@ -17,6 +17,8 @@ export default function ProductRowCarousel({
     const [paused, setPaused] = useState(false);
     const rafRef = useRef(0);
     const lastTsRef = useRef(0);
+    const manualUntilRef = useRef(0);
+    const manualAnimRef = useRef(0);
 
     const canAutoScroll = useMemo(() => list.length > 1, [list.length]);
     const loopList = useMemo(
@@ -28,23 +30,53 @@ export default function ProductRowCarousel({
         const el = scrollerRef.current;
         if (!el) return;
 
-        const first = el.querySelector(":scope > div");
+        const first = el.firstElementChild;
         const cardW = first?.offsetWidth ?? 360;
-
-        const styles = window.getComputedStyle(el);
-        const gap =
-            parseFloat(styles.columnGap || styles.gap || styles.rowGap || "0") || 24;
+        // gap-6 => 24px (avoid querySelector(:scope) + computedStyle quirks on some browsers)
+        const gap = 24;
 
         const delta = (cardW + gap) * dir;
         const half = el.scrollWidth / 2;
-        let next = el.scrollLeft + delta;
+        if (!half) return;
 
-        if (canAutoScroll) {
-            if (next >= half) next -= half;
-            if (next < 0) next += half;
+        // Pause auto drift briefly so manual scroll is visible everywhere
+        manualUntilRef.current = performance.now() + 700;
+
+        // Cancel any in-flight manual animation
+        if (manualAnimRef.current) cancelAnimationFrame(manualAnimRef.current);
+
+        let start = el.scrollLeft;
+        let target = start + delta;
+
+        // For backward wrap, shift start into the second half so target stays positive
+        if (target < 0) {
+            start = start + half;
+            el.scrollLeft = start;
+            target = start + delta;
         }
 
-        el.scrollTo({ left: next, behavior: "smooth" });
+        const duration = 420;
+        const t0 = performance.now();
+
+        const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+
+        const tick = (now) => {
+            const t = Math.min(1, (now - t0) / duration);
+            const eased = easeInOut(t);
+            el.scrollLeft = start + (target - start) * eased;
+
+            if (t < 1) {
+                manualAnimRef.current = requestAnimationFrame(tick);
+                return;
+            }
+
+            // Normalize into [0, half)
+            while (el.scrollLeft >= half) el.scrollLeft -= half;
+            while (el.scrollLeft < 0) el.scrollLeft += half;
+            manualAnimRef.current = 0;
+        };
+
+        manualAnimRef.current = requestAnimationFrame(tick);
     };
 
     useEffect(() => {
@@ -56,7 +88,7 @@ export default function ProductRowCarousel({
             const dt = Math.min(ts - lastTsRef.current, 34); // clamp to avoid occasional big jumps
             lastTsRef.current = ts;
 
-            if (!paused) {
+            if (!paused && performance.now() > manualUntilRef.current) {
                 const half = el.scrollWidth / 2;
                 const dx = (speedPxPerSec * dt) / 1000;
                 el.scrollLeft += dx;
