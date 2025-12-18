@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import SizeSelector from "./SizeSelector";
+import { useToast } from "../ToastProvider";
 
 export default function ProductCard({
   product,
@@ -17,6 +18,7 @@ export default function ProductCard({
   const maxQty = typeof product.pairs === "number" ? product.pairs : 1;
   const [justAdded, setJustAdded] = useState(false);
   const [showError, setShowError] = useState(false);
+  const { toast } = useToast();
 
   const counts = selectedCounts ?? {};
   const totalSelected = useMemo(
@@ -184,6 +186,17 @@ export default function ProductCard({
                 setTimeout(() => setShowError(false), 600);
                 return;
               }
+              const summary = Object.entries(counts)
+                .filter(([, qty]) => (Number(qty) || 0) > 0)
+                .sort((a, b) => Number(a[0]) - Number(b[0]))
+                .map(([size, qty]) => `UK ${size}×${qty}`)
+                .join(", ");
+
+              toast({
+                title: "PRODUCT ADDED",
+                message: `${product.name}${summary ? ` — ${summary}` : ""}`,
+              });
+
               // lightweight "add to cart" behavior (can be wired to a real cart later)
               setJustAdded(true);
               setTimeout(() => setJustAdded(false), 900);

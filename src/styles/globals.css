@@ -106,6 +106,34 @@ body {
   }
 }
 
+.animate-pixel-toast-in {
+  animation: pixel-toast-in 240ms ease-out;
+}
+
+@keyframes pixel-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) translateX(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+  }
+}
+
+.animate-pixel-toast-progress {
+  animation: pixel-toast-progress 2.6s linear forwards;
+}
+
+@keyframes pixel-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.8s ease-out;
 }
