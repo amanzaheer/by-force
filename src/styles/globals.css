@@ -357,6 +357,21 @@ body {
   filter: invert(1) brightness(0.55) contrast(1.35);
 }
 
+/* Simple line clamps (no Tailwind plugin needed) */
+.clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* CTA arrow sweep (visible from-left travel inside a small lane) */
 .hero-cta-arrow-lane {
   position: relative;

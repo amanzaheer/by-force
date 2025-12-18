@@ -28,7 +28,7 @@ export default function SizeSelector({
           onClick={() => onToggle(dropdownKey)}
           className={
             buttonClassName ??
-            "w-full px-4 py-3.5 bg-gradient-to-b from-white to-[#FAFAFA] text-[#2C3E50] pixel-text font-bold text-sm border-[3px] border-[#2C3E50] shadow-[3px_3px_0px_0px_#2C3E50] hover:shadow-[4px_4px_0px_0px_#2C3E50] hover:border-[#4A90E2] transition-all duration-300 focus:outline-none flex items-center justify-between cursor-pointer"
+            "w-full px-4 py-2.5 bg-white/90 text-[#2C3E50] pixel-text font-extrabold text-sm border-2 border-[#2C3E50]/70 shadow-[2px_2px_0px_0px_#2C3E50] hover:shadow-[3px_3px_0px_0px_#2C3E50] hover:border-[#4A90E2] transition-all duration-200 focus:outline-none flex items-center justify-between cursor-pointer rounded-lg"
           }
         >
           <span>{selectedSize ? `Size ${selectedSize}` : "Choose Size"}</span>
@@ -53,7 +53,7 @@ export default function SizeSelector({
 
         {isOpen && (
           <div
-            className="absolute top-full left-0 right-0 mt-1 bg-white border-[3px] border-[#2C3E50] shadow-[4px_4px_0px_0px_#2C3E50]"
+            className="absolute top-full left-0 right-0 mt-1 bg-white border-2 border-[#2C3E50] shadow-[3px_3px_0px_0px_#2C3E50] rounded-lg overflow-hidden"
             style={{ zIndex: 10000 }}
           >
             <div
@@ -63,7 +63,7 @@ export default function SizeSelector({
               <button
                 type="button"
                 onClick={() => onClear(dropdownKey)}
-                className={`w-full px-4 py-2.5 text-left pixel-text font-bold text-sm border-b-[2px] border-[#2C3E50]/20 transition-colors duration-200 cursor-pointer ${
+                className={`w-full px-4 py-2 text-left pixel-text font-extrabold text-sm border-b border-[#2C3E50]/20 transition-colors duration-200 cursor-pointer ${
                   !selectedSize
                     ? "bg-[#4A90E2] text-white"
                     : "text-[#2C3E50] bg-white hover:bg-[#4A90E2] hover:text-white"
@@ -77,7 +77,7 @@ export default function SizeSelector({
                   type="button"
                   key={size}
                   onClick={() => onSelect(dropdownKey, size)}
-                  className={`w-full px-4 py-2.5 text-left pixel-text font-bold text-sm border-b-[2px] border-[#2C3E50]/20 hover:bg-[#4A90E2] hover:text-white transition-colors duration-200 cursor-pointer ${
+                  className={`w-full px-4 py-2 text-left pixel-text font-extrabold text-sm border-b border-[#2C3E50]/20 hover:bg-[#4A90E2] hover:text-white transition-colors duration-200 cursor-pointer ${
                     selectedSize === size
                       ? "bg-[#4A90E2] text-white"
                       : "text-[#2C3E50] bg-white"

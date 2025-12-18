@@ -30,7 +30,7 @@ export default function ProductRowCarousel({
 
         const step = (ts) => {
             if (!lastTsRef.current) lastTsRef.current = ts;
-            const dt = ts - lastTsRef.current;
+            const dt = Math.min(ts - lastTsRef.current, 34); // clamp to avoid occasional big jumps
             lastTsRef.current = ts;
 
             if (!paused) {

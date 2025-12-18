@@ -21,7 +21,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="group bg-white/14 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-[0_18px_40px_rgba(44,62,80,0.18)] hover:shadow-[0_22px_55px_rgba(44,62,80,0.22)] transition-all duration-500 relative overflow-hidden animate-slide-up opacity-0 hover:scale-[0.97]"
+      className="group h-full min-h-[640px]  flex flex-col bg-white/14 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-[0_18px_40px_rgba(44,62,80,0.18)] hover:shadow-[0_22px_55px_rgba(44,62,80,0.22)] transition-all duration-500 relative overflow-hidden animate-slide-up opacity-0 hover:scale-[0.97]"
       style={{
         animationDelay: `${index * 0.15}s`,
         animationFillMode: "forwards",
@@ -91,9 +91,8 @@ export default function ProductCard({
                     <span
                       // eslint-disable-next-line react/no-array-index-key
                       key={i}
-                      className={`w-3 h-3 border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] animate-pulse ${
-                        boxColors[i % boxColors.length]
-                      }`}
+                      className={`w-3 h-3 border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] animate-pulse ${boxColors[i % boxColors.length]
+                        }`}
                       style={{ animationDelay: `${(i % 6) * 0.12}s` }}
                     />
                   ))}
@@ -110,56 +109,61 @@ export default function ProductCard({
       </div>
 
       {/* Product Info */}
-      <div className="space-y-3">
-        <div>
-          <h2 className="text-xl md:text-2xl font-extrabold text-[#2C3E50] pixel-text uppercase mb-1">
-            {product.name}
-          </h2>
-          <p className="text-sm md:text-base text-[#2C3E50]/90 pixel-text font-medium">
-            {product.description}
-          </p>
+      <div className="flex flex-col flex-1">
+        <div className="space-y-2">
+          <div>
+            <h2 className="text-xl md:text-2xl font-extrabold text-[#2C3E50] pixel-text uppercase mb-1 clamp-1">
+              {product.name}
+            </h2>
+            <p className="text-sm md:text-base text-[#2C3E50]/90 pixel-text font-medium clamp-2">
+              {product.description}
+            </p>
+          </div>
+
+          {/* Pricing */}
+          <div className="space-y-1">
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl md:text-3xl font-extrabold text-[#4A90E2] pixel-text">
+                £{product.price.toFixed(2)}
+              </span>
+              <span className="text-base text-[#2C3E50]/70 pixel-text line-through">
+                £{product.originalPrice.toFixed(2)}
+              </span>
+            </div>
+            <div className="text-sm text-[#2C3E50] pixel-text font-bold">
+              Save £{(product.originalPrice - product.price).toFixed(2)}
+            </div>
+          </div>
         </div>
 
-        {/* Pricing */}
-        <div className="space-y-1">
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl md:text-3xl font-extrabold text-[#4A90E2] pixel-text">
-              £{product.price.toFixed(2)}
+        {/* Controls (kept close to product details) */}
+        <div className="mt-4 space-y-2">
+          {/* Size Selector - Custom Dropdown */}
+          <SizeSelector
+            dropdownKey={dropdownKey}
+            isOpen={isDropdownOpen}
+            selectedSize={selectedSize}
+            sizes={sizes}
+            listMaxHeight="190px"
+            labelClassName="block text-[#2C3E50] pixel-text font-extrabold mb-1.5 text-xs uppercase tracking-wider"
+            buttonClassName="w-full px-4 py-2.5 bg-white/90 text-[#2C3E50] pixel-text font-extrabold text-sm border-2 border-[#2C3E50]/70 shadow-[2px_2px_0px_0px_#2C3E50] hover:shadow-[3px_3px_0px_0px_#2C3E50] hover:border-[#4A90E2] transition-all duration-200 focus:outline-none flex items-center justify-between cursor-pointer rounded-lg"
+            iconSize={16}
+            onToggle={onToggleDropdown}
+            onSelect={onSelectSize}
+            onClear={onClearSize}
+          />
+
+          {/* Add to Cart Button */}
+          <button className="group/btn relative w-full bg-gradient-to-b from-[#4A90E2] to-[#3A7BC8] hover:from-[#5AA2EA] hover:to-[#3A7BC8] text-white px-4 py-2.5 font-extrabold text-sm pixel-text uppercase transition-all duration-200 shadow-[0_10px_25px_rgba(44,62,80,0.18)] hover:shadow-[0_14px_32px_rgba(44,62,80,0.22)] active:scale-95 overflow-hidden focus:outline-none cursor-pointer rounded-lg">
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              Add to Cart
+              <span className="text-base group-hover/btn:translate-x-1 transition-transform duration-300 ease-out">
+                →
+              </span>
             </span>
-            <span className="text-base text-[#2C3E50]/70 pixel-text line-through">
-              £{product.originalPrice.toFixed(2)}
-            </span>
-          </div>
-          <div className="text-sm text-[#2C3E50] pixel-text font-bold">
-            Save £{(product.originalPrice - product.price).toFixed(2)}
-          </div>
+            <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/30 to-transparent"></span>
+          </button>
         </div>
-
-        {/* Size Selector - Custom Dropdown */}
-        <SizeSelector
-          dropdownKey={dropdownKey}
-          isOpen={isDropdownOpen}
-          selectedSize={selectedSize}
-          sizes={sizes}
-          listMaxHeight="190px"
-          labelClassName="block text-[#2C3E50] pixel-text font-bold mb-2.5 text-xs md:text-sm uppercase tracking-wider"
-          buttonClassName="w-full px-4 py-3.5 bg-gradient-to-b from-white to-[#FAFAFA] text-[#2C3E50] pixel-text font-bold text-sm border-[3px] border-[#2C3E50] shadow-[3px_3px_0px_0px_#2C3E50] hover:shadow-[4px_4px_0px_0px_#2C3E50] hover:border-[#4A90E2] transition-all duration-300 focus:outline-none flex items-center justify-between cursor-pointer"
-          iconSize={16}
-          onToggle={onToggleDropdown}
-          onSelect={onSelectSize}
-          onClear={onClearSize}
-        />
-
-        {/* Add to Cart Button */}
-        <button className="group/btn relative w-full bg-[#4A90E2] hover:bg-[#3A7BC8] text-white px-4 py-3 font-extrabold text-sm md:text-base pixel-text uppercase transition-all duration-300 border-[2px] border-[#2C3E50] shadow-[3px_3px_0px_0px_#2C3E50] hover:shadow-[4px_4px_0px_0px_#2C3E50] active:scale-95 overflow-hidden focus:outline-none cursor-pointer">
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            Add to Cart
-            <span className="text-lg group-hover/btn:translate-x-1 transition-transform duration-500 ease-out">
-              →
-            </span>
-          </span>
-          <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/30 to-transparent"></span>
-        </button>
       </div>
     </div>
   );
