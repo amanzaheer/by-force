@@ -60,11 +60,11 @@ export default function HeroSection({ features }) {
                 {/* subtle scanlines */}
 
                 <h2 className="text-3xl font-extrabold text-[#2C3E50] pixel-text leading-tight uppercase min-h-[12rem] md:min-h-[8rem]">
-                  <span className="text-[#4A90E2] font-extrabold drop-shadow-[2px_2px_0px_rgba(44,62,80,0.25)]">
+                  <span className="text-white font-extrabold drop-shadow-[2px_2px_0px_rgba(44,62,80,0.25)]">
                     {displayedText}
                   </span>
                   {showCursor && (
-                    <span className="animate-pulse text-[#E74C3C]">|</span>
+                    <span className="animate-pulse text-white "> □ </span>
                   )}
                 </h2>
               </div>
