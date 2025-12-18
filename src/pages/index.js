@@ -5,6 +5,7 @@ import HeroSection from "../components/HeroSection";
 import ProductShowcase from "../components/ProductShowcase";
 import SocialProof from "../components/SocialProof";
 import Footer from "../components/Footer";
+import PixelBoxesBackground from "../components/PixelBoxesBackground";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -44,15 +45,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="min-h-screen bg-gradient-to-b from-[#64DEF7] via-[#81ECD7] to-[#B7ECBD]">
-        <Navbar
-          isScrolled={isScrolled}
-          mobileMenuOpen={mobileMenuOpen}
-          onToggleMobile={() => setMobileMenuOpen((open) => !open)}
-        />
+      <div className="relative min-h-screen bg-gradient-to-b from-[#64DEF7] via-[#81ECD7] to-[#B7ECBD] overflow-hidden">
+        <PixelBoxesBackground />
 
-        <HeroSection features={features} />
-        <Footer />
+        <div className="relative z-10">
+          <Navbar
+            isScrolled={isScrolled}
+            mobileMenuOpen={mobileMenuOpen}
+            onToggleMobile={() => setMobileMenuOpen((open) => !open)}
+          />
+
+          <HeroSection features={features} />
+          <Footer />
+        </div>
       </div>
     </>
   );

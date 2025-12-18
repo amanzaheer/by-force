@@ -230,6 +230,104 @@ body {
   animation: scale-in 0.5s ease-out forwards;
 }
 
+/* Home background: floating 8-bit boxes (smooth + modern) */
+@keyframes pixel-box-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(var(--dx, 18px), var(--dy, -18px), 0) scale(1.06);
+  }
+}
+
+@keyframes pixel-box-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pixel-box-glint {
+  0%, 100% {
+    opacity: var(--o, 0.16);
+    box-shadow: 3px 3px 0px 0px rgba(44, 62, 80, 0.22);
+    border-color: rgba(44, 62, 80, 0.45);
+  }
+  50% {
+    opacity: calc(var(--o, 0.16) + 0.06);
+    box-shadow: 4px 4px 0px 0px rgba(44, 62, 80, 0.30);
+    border-color: rgba(44, 62, 80, 0.58);
+  }
+}
+
+@keyframes pixel-box-shine {
+  0% {
+    opacity: 0;
+    transform: translateX(-140%) rotate(45deg);
+  }
+  20% {
+    opacity: 0.18;
+  }
+  55% {
+    opacity: 0.10;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(140%) rotate(45deg);
+  }
+}
+
+.pixel-boxes-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.pixel-box-wrap {
+  position: absolute;
+  width: var(--size, 14px);
+  height: var(--size, 14px);
+  will-change: transform;
+  animation: pixel-box-drift var(--dur, 18s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.pixel-box {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  opacity: var(--o, 0.16);
+  border: 2px solid rgba(44, 62, 80, 0.50);
+  box-shadow: 3px 3px 0px 0px rgba(44, 62, 80, 0.25);
+  will-change: transform;
+  animation:
+    pixel-box-spin var(--spin, 60s) linear infinite,
+    pixel-box-glint var(--tw, 8s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s), var(--twDelay, 0s);
+}
+
+.pixel-box::after {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 55%
+  );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  animation: pixel-box-shine calc(var(--tw, 8s) + 1.5s) ease-in-out infinite;
+  animation-delay: var(--twDelay, 0s);
+}
+
+.pixel-box:hover {
+  /* doesn’t affect clicks because container is pointer-events-none */
+  opacity: 0.22;
+}
+
 /* Pixel UI Extras (Hero feature list) */
 @keyframes scanlines {
   from {
