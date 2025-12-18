@@ -24,6 +24,29 @@ export default function ProductRowCarousel({
         [canAutoScroll, list]
     );
 
+    const scrollByCards = (dir) => {
+        const el = scrollerRef.current;
+        if (!el) return;
+
+        const first = el.querySelector(":scope > div");
+        const cardW = first?.offsetWidth ?? 360;
+
+        const styles = window.getComputedStyle(el);
+        const gap =
+            parseFloat(styles.columnGap || styles.gap || styles.rowGap || "0") || 24;
+
+        const delta = (cardW + gap) * dir;
+        const half = el.scrollWidth / 2;
+        let next = el.scrollLeft + delta;
+
+        if (canAutoScroll) {
+            if (next >= half) next -= half;
+            if (next < 0) next += half;
+        }
+
+        el.scrollTo({ left: next, behavior: "smooth" });
+    };
+
     useEffect(() => {
         const el = scrollerRef.current;
         if (!el || !canAutoScroll) return;
@@ -66,36 +89,62 @@ export default function ProductRowCarousel({
                     )}
                 </div>
 
-                <div
-                    ref={scrollerRef}
-                    className="flex gap-6 overflow-x-auto pb-4"
-                    onMouseEnter={() => setPaused(true)}
-                    onMouseLeave={() => setPaused(false)}
-                    onFocusCapture={() => setPaused(true)}
-                    onBlurCapture={() => setPaused(false)}
-                    style={{
-                        scrollbarWidth: "none",
-                        msOverflowStyle: "none",
-                    }}
-                >
-                    {loopList.map((product, i) => (
-                        <div
-                            key={`${product.id}-${i}`}
-                            className="snap-start shrink-0 w-[320px] sm:w-[360px] md:w-[380px]"
-                        >
-                            <ProductCard
-                                product={product}
-                                index={i}
-                                dropdownKey={`${product.id}-${i}`}
-                                isDropdownOpen={!!openDropdowns[`${product.id}-${i}`]}
-                                selectedCounts={selectedSizes[`${product.id}-${i}`]}
-                                sizes={sizes}
-                                onToggleDropdown={onToggleDropdown}
-                                onSetSizeCounts={onSetSizeCounts}
-                                onClearSize={onClearSize}
-                            />
-                        </div>
-                    ))}
+                <div className="relative">
+                    {/* Prev/Next gaming buttons */}
+                    {canAutoScroll && (
+                        <>
+                            <button
+                                type="button"
+                                aria-label="Previous"
+                                onClick={() => scrollByCards(-1)}
+                                className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-[#3A7BC8] hover:bg-[#4A90E2] text-white flex items-center justify-center border-2 border-[#2C3E50] shadow-[3px_3px_0px_0px_#2C3E50] hover:shadow-[4px_4px_0px_0px_#2C3E50] transition-all duration-200 active:scale-95 pixel-text overflow-hidden"
+                            >
+                                <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+                                <span className="text-2xl animate-pulse">←</span>
+                            </button>
+                            <button
+                                type="button"
+                                aria-label="Next"
+                                onClick={() => scrollByCards(1)}
+                                className="absolute -right-2 md:-right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-[#3A7BC8] hover:bg-[#4A90E2] text-white flex items-center justify-center border-2 border-[#2C3E50] shadow-[3px_3px_0px_0px_#2C3E50] hover:shadow-[4px_4px_0px_0px_#2C3E50] transition-all duration-200 active:scale-95 pixel-text overflow-hidden"
+                            >
+                                <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+                                <span className="text-2xl animate-pulse">→</span>
+                            </button>
+                        </>
+                    )}
+
+                    <div
+                        ref={scrollerRef}
+                        className="flex gap-6 overflow-x-auto pb-4"
+                        onMouseEnter={() => setPaused(true)}
+                        onMouseLeave={() => setPaused(false)}
+                        onFocusCapture={() => setPaused(true)}
+                        onBlurCapture={() => setPaused(false)}
+                        style={{
+                            scrollbarWidth: "none",
+                            msOverflowStyle: "none",
+                        }}
+                    >
+                        {loopList.map((product, i) => (
+                            <div
+                                key={`${product.id}-${i}`}
+                                className="shrink-0 w-[320px] sm:w-[360px] md:w-[380px]"
+                            >
+                                <ProductCard
+                                    product={product}
+                                    index={i}
+                                    dropdownKey={`${product.id}-${i}`}
+                                    isDropdownOpen={!!openDropdowns[`${product.id}-${i}`]}
+                                    selectedCounts={selectedSizes[`${product.id}-${i}`]}
+                                    sizes={sizes}
+                                    onToggleDropdown={onToggleDropdown}
+                                    onSetSizeCounts={onSetSizeCounts}
+                                    onClearSize={onClearSize}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
