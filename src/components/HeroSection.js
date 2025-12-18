@@ -211,6 +211,19 @@ export default function HeroSection({ features }) {
                   <div className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-white/15 rounded-full animate-float-2"></div>
                   <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-white/25 rounded-full animate-float-3"></div>
                 </div>
+
+                {/* Bottom Left 8-bit Boxes */}
+                <div className="absolute -bottom-2 -left-2 z-20 flex gap-1 pointer-events-none">
+                  <div className="w-3 h-3 bg-[#4A90E2] border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] animate-pulse"></div>
+                  <div
+                    className="w-3 h-3 bg-[#3A7BC8] border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] animate-pulse"
+                    style={{ animationDelay: "0.2s" }}
+                  ></div>
+                  <div
+                    className="w-3 h-3 bg-[#2C3E50] border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] animate-pulse"
+                    style={{ animationDelay: "0.4s" }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
