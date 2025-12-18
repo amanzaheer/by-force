@@ -41,11 +41,6 @@ export default function ProductCard({
         animationFillMode: "forwards",
       }}
     >
-      {/* Visual overlays (clipped) */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
-        <div className="absolute inset-0 opacity-20 pixel-scanlines animate-scanlines" />
-        <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-      </div>
 
       {/* Badge */}
       <div className="absolute top-3 right-3 z-20 bg-[#E74C3C] text-white px-3 py-1.5 pixel-text font-bold text-xs border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50]">
@@ -58,14 +53,7 @@ export default function ProductCard({
           <div className="text-sm md:text-base text-[#2C3E50] pixel-text font-extrabold tracking-wider">
             {product.heading}
           </div>
-          {typeof product.pairs === "number" && (
-            <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 bg-[#4A90E2] border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] animate-pulse" />
-              <div className="text-xs text-[#2C3E50] pixel-text font-bold">
-                {product.pairs} {pairsLabel}
-              </div>
-            </div>
-          )}
+
         </div>
       )}
 
