@@ -135,7 +135,7 @@ export default function HeroSection({ features }) {
             <div className="pt-2">
               <a
                 href="/shop"
-                className="group relative block w-full bg-[#4A90E2] text-white px-6 py-4 md:py-5 font-extrabold text-base md:text-lg lg:text-xl pixel-text text-center uppercase transition-all duration-200 hover:bg-[#3A7BC8] active:scale-[0.98] overflow-visible"
+                className="group relative block w-full bg-[#4A90E2] hover:scale-105 text-white px-6 py-4 md:py-5 font-extrabold text-base md:text-lg lg:text-xl pixel-text text-center uppercase transition-all duration-200 hover:bg-[#3A7BC8] active:scale-[0.98] overflow-visible"
                 style={{
                   // border: "3px solid #2C3E50",
                   borderRadius: "0",
