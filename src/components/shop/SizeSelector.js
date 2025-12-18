@@ -100,14 +100,14 @@ export default function SizeSelector({
                     <button
                       type="button"
                       onClick={() => onClear(dropdownKey)}
-                      className="text-xs pixel-text font-extrabold text-[#E74C3C] hover:underline"
+                      className="text-xs pixel-text font-extrabold text-[#E74C3C] hover:underline cursor-pointer"
                     >
                       Clear
                     </button>
                     <button
                       type="button"
                       onClick={() => onToggle(dropdownKey)}
-                      className="text-xs pixel-text font-extrabold text-[#2C3E50] hover:underline"
+                      className="text-xs pixel-text font-extrabold text-[#2C3E50] hover:underline cursor-pointer"
                     >
                       Close
                     </button>
@@ -147,8 +147,8 @@ export default function SizeSelector({
                       type="button"
                       onClick={() => decrement(size)}
                       className={`w-8 h-8 flex items-center justify-center border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] pixel-text font-extrabold rounded-md ${(selectedCounts[size] || 0) > 0
-                        ? "bg-white hover:bg-[#4A90E2] hover:text-white"
-                        : "bg-white/60 text-[#2C3E50]/40"
+                        ? "bg-white hover:bg-[#4A90E2] hover:text-white cursor-pointer"
+                        : "bg-white/60 text-[#2C3E50]/40 cursor-not-allowed"
                         }`}
                       disabled={(selectedCounts[size] || 0) <= 0}
                       aria-label={`Decrease size ${size}`}
@@ -164,8 +164,8 @@ export default function SizeSelector({
                       type="button"
                       onClick={() => increment(size)}
                       className={`w-8 h-8 flex items-center justify-center border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50] pixel-text font-extrabold rounded-md ${totalSelected < maxQty
-                        ? "bg-white hover:bg-[#4A90E2] hover:text-white"
-                        : "bg-white/60 text-[#2C3E50]/40"
+                        ? "bg-white hover:bg-[#4A90E2] hover:text-white cursor-pointer"
+                        : "bg-white/60 text-[#2C3E50]/40 cursor-not-allowed"
                         }`}
                       disabled={totalSelected >= maxQty}
                       aria-label={`Increase size ${size}`}
