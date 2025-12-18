@@ -51,36 +51,71 @@ export default function HeroSection({ features }) {
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl"></div>
 
           {/* Left Content Panel - Enhanced */}
-          <div className="relative z-10 p-6  space-y-6 md:space-y-3 animate-fade-in">
+          <div className="relative z-10 p-6 space-y-6 md:space-y-4 animate-fade-in">
+
+
             {/* Headline - Typewriter Effect with Enhanced Styling */}
             <div className="space-y-4">
-              <div className=" rounded-xl p-5 md:p-6 ">
-                <h2 className="text-3xl  font-extrabold text-[#2C3E50] pixel-text leading-tight uppercase min-h-[12rem] md:min-h-[8rem]">
-                  <span className="text-[#4A90E2] font-extrabold ">{displayedText}</span>
-                  {showCursor && <span className="animate-pulse text-[#E74C3C]">|</span>}
+              <div className="rounded-xl p-5 md:p-6  relative overflow-hidden">
+                {/* subtle scanlines */}
+
+                <h2 className="text-3xl font-extrabold text-[#2C3E50] pixel-text leading-tight uppercase min-h-[12rem] md:min-h-[8rem]">
+                  <span className="text-[#4A90E2] font-extrabold drop-shadow-[2px_2px_0px_rgba(44,62,80,0.25)]">
+                    {displayedText}
+                  </span>
+                  {showCursor && (
+                    <span className="animate-pulse text-[#E74C3C]">|</span>
+                  )}
                 </h2>
               </div>
             </div>
 
             {/* Feature List - Premium Design */}
-            <div className="space-y-2">
-              {features.map((feature, index) => {
+            <div className="space-y-3">
+              {(features ?? []).map((feature, index) => {
                 const imageNumber = index + 2;
                 return (
                   <div
                     key={index}
-                    className="group flex items-center gap-3 md:gap-4 bg-white/15 hover:bg-white/25 backdrop-blur-md rounded-xl px-2 py-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl border border-white/30 hover:border-white/50 cursor-pointer"
+                    className="group relative overflow-hidden flex items-center gap-3 md:gap-4 bg-white/10 hover:bg-white/20 backdrop-blur-md px-3 py-3 transition-all duration-300 hover:translate-y-[-2px] cursor-pointer animate-slide-up opacity-0"
                     style={{
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)",
+                      animationDelay: `${0.15 * index + 0.1}s`,
+                      animationFillMode: "forwards",
                     }}
                   >
+                    {/* Hover shine */}
+                    <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent"></span>
+                    {/* Hover scanlines */}
+                    <span className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300 pixel-scanlines animate-scanlines mix-blend-overlay"></span>
+
+
+
                     {/* Text Content - Enhanced */}
-                    <p className="text-sm md:text-base lg:text-lg text-white font-bold pixel-text flex-1 leading-snug drop-shadow-lg">
-                      {feature.text}
-                    </p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm md:text-base lg:text-lg text-white font-extrabold pixel-text leading-snug drop-shadow-[2px_2px_0px_rgba(44,62,80,0.35)]">
+                        {feature.text}
+                      </p>
+
+                      {/* animated lines below */}
+                      <div className="mt-2 flex items-center gap-2">
+                        <div className="h-[3px] w-10 bg-[#E74C3C] border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50]"></div>
+                        <div className="h-[2px] flex-1 bg-white/25"></div>
+                        <div className="flex items-center gap-1">
+                          <span className="w-2.5 h-2.5 bg-white/25 border-2 border-[#2C3E50] animate-pulse"></span>
+                          <span
+                            className="w-2.5 h-2.5 bg-white/15 border-2 border-[#2C3E50] animate-pulse"
+                            style={{ animationDelay: "0.2s" }}
+                          ></span>
+                          <span
+                            className="w-2.5 h-2.5 bg-white/10 border-2 border-[#2C3E50] animate-pulse"
+                            style={{ animationDelay: "0.4s" }}
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
 
                     {/* Image Container - Premium Styling */}
-                    <div className="flex-shrink-0 w-18 h-18 md:w-22 md:h-22 relative rounded-xl bg-gradient-to-br from-white/40 to-white/20 backdrop-blur-sm overflow-hidden shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300 border-2 border-white/40 group-hover:border-white/60">
+                    <div className="flex-shrink-0 w-[72px] h-[72px] md:w-[88px] md:h-[88px] relative  overflow-hidden group-hover:scale-110 transition-all duration-300  group-hover:border-white/60">
                       <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/10"></div>
                       <Image
                         src={`/${imageNumber}.webp`}
@@ -107,13 +142,14 @@ export default function HeroSection({ features }) {
                   boxShadow: "4px 4px 0px 0px #2C3E50",
                   textShadow: "2px 2px 0px rgba(0,0,0,0.3)",
                   imageRendering: "pixelated",
-                  imageRendering: "crisp-edges",
                 }}
               >
                 {/* Button Text */}
-                <span className="relative z-10 flex items-center justify-center gap-2">
+                <span className="relative z-10 flex items-center justify-center gap-3">
                   Shop & Save Now
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+                  <span className="hero-cta-arrow-lane" aria-hidden="true">
+                    <span className="hero-cta-arrow text-xl">→</span>
+                  </span>
                 </span>
 
               </a>
@@ -128,8 +164,7 @@ export default function HeroSection({ features }) {
 
 
               {/* Top Right Corner */}
-              <div className=" FLEX " >
-
+              <div>
                 <div className="absolute -top-2 -right-2 z-20 flex flex-col gap-1">
                   <div className="w-3 h-3 bg-[#4A90E2] border-2 border-[#2C3E50]" style={{ boxShadow: '2px 2px 0px 0px #2C3E50' }}></div>
                   <div ></div>
