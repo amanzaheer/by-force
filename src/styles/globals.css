@@ -19,6 +19,123 @@ body {
   -moz-osx-font-smoothing: unset;
 }
 
+/* Pixel logo (Navbar) */
+@keyframes pixel-logo-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.pixel-logo {
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #ffffff;
+  /* 8-bit outline like reference: teal outline + dark border + drop shadow */
+  text-shadow:
+    /* teal inner outline */
+    2px 0 0 #19C7C7,
+    -2px 0 0 #19C7C7,
+    0 2px 0 #19C7C7,
+    0 -2px 0 #19C7C7,
+    2px 2px 0 #19C7C7,
+    -2px 2px 0 #19C7C7,
+    2px -2px 0 #19C7C7,
+    -2px -2px 0 #19C7C7,
+    /* dark outer border */
+    4px 0 0 #2C3E50,
+    -4px 0 0 #2C3E50,
+    0 4px 0 #2C3E50,
+    0 -4px 0 #2C3E50,
+    4px 4px 0 #2C3E50,
+    -4px 4px 0 #2C3E50,
+    4px -4px 0 #2C3E50,
+    -4px -4px 0 #2C3E50,
+    /* drop shadow */
+    6px 6px 0 rgba(44, 62, 80, 0.30);
+  animation: pixel-logo-float 3.2s ease-in-out infinite;
+}
+
+.pixel-logo-glow {
+  filter: drop-shadow(0 10px 20px rgba(44, 62, 80, 0.18));
+  transition: transform 200ms ease, filter 200ms ease;
+}
+
+.pixel-logo-glow:hover {
+  transform: scale(1.04);
+  filter:
+    drop-shadow(0 14px 28px rgba(44, 62, 80, 0.22))
+    drop-shadow(0 0 18px rgba(74, 144, 226, 0.35));
+}
+
+/* Navbar links: idle glint + hover shimmer */
+@keyframes nav-link-glint {
+  0% {
+    opacity: 0;
+    transform: translateX(-140%);
+  }
+  18% {
+    opacity: 0.18;
+  }
+  55% {
+    opacity: 0.10;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(140%);
+  }
+}
+
+.nav-link {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #2C3E50;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.30);
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.14) 45%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.14) 55%,
+    transparent 100%
+  );
+  transform: translateX(-140%);
+  opacity: 0;
+  pointer-events: none;
+  animation: nav-link-glint 6.5s ease-in-out infinite;
+}
+
+.nav-link:hover::before {
+  animation-duration: 1.1s;
+  opacity: 1;
+}
+
+.nav-link:hover {
+  filter: drop-shadow(0 10px 18px rgba(44, 62, 80, 0.18));
+}
+
+.nav-link--active::before {
+  animation-duration: 3.6s;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-link::before {
+    animation: none !important;
+  }
+}
+
 /* Pixel Borders */
 .pixel-border {
   border: 3px solid var(--pixel-dark);

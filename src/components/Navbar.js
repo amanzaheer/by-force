@@ -1,6 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { Press_Start_2P } from "next/font/google";
+
+const pressStart = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export default function Navbar({ isScrolled, mobileMenuOpen, onToggleMobile }) {
   const [activePage, setActivePage] = useState("home");
@@ -25,19 +30,10 @@ export default function Navbar({ isScrolled, mobileMenuOpen, onToggleMobile }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
           {/* Logo - Left Side (Start) */}
-          <Link href="/" className="flex-shrink-0 group">
-            <div className="relative">
-              <Image
-                src="/by.webp"
-                alt="ByForce Logo"
-                width={200}
-                height={50}
-                className="w-auto h-10 md:h-12 lg:h-14 object-contain transition-transform duration-300 group-hover:scale-110"
-                priority
-                quality={100}
-              />
-              <div className="absolute inset-0 bg-white/10 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
+          <Link href="/" className="flex-shrink-0 pixel-logo-glow select-none">
+            <span className={`${pressStart.className} pixel-logo text-3xl md:text-4xl  leading-none`}>
+              BYFORCEUK
+            </span>
           </Link>
 
           {/* Navigation Items - Center */}
@@ -49,16 +45,12 @@ export default function Navbar({ isScrolled, mobileMenuOpen, onToggleMobile }) {
                   key={item.id}
                   href={item.href}
                   onClick={() => handleNavClick(item.id, item.href)}
-                  className={`relative px-4 lg:px-6 py-2 rounded-lg font-extrabold text-sm lg:text-base text-white pixel-text transition-all duration-300 transform hover:scale-110 active:scale-95 overflow-hidden group
+                  className={`nav-link relative px-4 lg:px-6 py-2 rounded-lg font-extrabold text-sm lg:text-base text-white pixel-text transition-all duration-300 transform hover:scale-110 active:scale-95 group
                     ${isActive
-                      ? "bg-[#4A90E2] shadow-[0_4px_0_0_#2C3E50]"
+                      ? "nav-link--active bg-[#4A90E2] shadow-[0_4px_0_0_#2C3E50]"
                       : "bg-[#3A7BC8]/80 hover:bg-[#4A90E2] shadow-[0_3px_0_0_#2C3E50]"
                     }
                   `}
-                  style={{
-                    border: "2px solid #2C3E50",
-                    textShadow: "2px 2px 0px rgba(0,0,0,0.3)",
-                  }}
                 >
                   {/* Button Text */}
                   <span className="relative z-10">{item.label}</span>
@@ -123,16 +115,12 @@ export default function Navbar({ isScrolled, mobileMenuOpen, onToggleMobile }) {
                   key={item.id}
                   href={item.href}
                   onClick={() => handleNavClick(item.id, item.href)}
-                  className={`block px-4 py-3 rounded-lg font-extrabold text-white pixel-text transition-all duration-200 transform active:scale-95
+                  className={`nav-link block px-4 py-3 rounded-lg font-extrabold text-white pixel-text transition-all duration-200 transform active:scale-95
                     ${isActive
-                      ? "bg-[#4A90E2] shadow-[0_3px_0_0_#2C3E50]"
+                      ? "nav-link--active bg-[#4A90E2] shadow-[0_3px_0_0_#2C3E50]"
                       : "bg-[#2C3E50]/50 hover:bg-[#4A90E2]"
                     }
                   `}
-                  style={{
-                    border: "2px solid #2C3E50",
-                    textShadow: "2px 2px 0px rgba(0,0,0,0.3)",
-                  }}
                 >
                   {item.label}
                 </Link>
