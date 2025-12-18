@@ -11,6 +11,8 @@ export default function CarouselProductCard({
   onSelectSize,
   onClearSize,
 }) {
+  const pairsLabel = product.pairs === 1 ? "PAIR" : "PAIRS";
+
   return (
     <div className="bg-[#B0E0E6] rounded-xl p-6 md:p-8 border-[3px] border-[#2C3E50] shadow-[6px_6px_0px_0px_#2C3E50] relative overflow-visible group animate-scale-in">
       {/* Badge */}
@@ -21,21 +23,37 @@ export default function CarouselProductCard({
       <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
         {/* Product Image */}
         <div className="relative">
-          <div className="bg-white/40 backdrop-blur-sm rounded-lg p-6 border-2 border-[#2C3E50] shadow-[4px_4px_0px_0px_#2C3E50] group-hover:shadow-[6px_6px_0px_0px_#2C3E50] transition-all duration-500">
+          <div className="bg-white/35 backdrop-blur-sm rounded-lg p-6 border-2 border-[#2C3E50] shadow-[4px_4px_0px_0px_#2C3E50] group-hover:shadow-[6px_6px_0px_0px_#2C3E50] transition-all duration-500 overflow-hidden relative">
+            <div className="pointer-events-none absolute inset-0 opacity-20 pixel-scanlines animate-scanlines" />
             <div className="relative h-64 md:h-80">
               <Image
-                src="/bitmap.webp"
+                src={product.imageSrc ?? "/bitmap.webp"}
                 alt={product.name}
                 fill
-                className="object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-500 ease-out"
+                className={`object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-500 ease-out ${product.imageClassName ?? ""}`}
                 priority
               />
             </div>
+
+            {typeof product.pairs === "number" && (
+              <div className="absolute left-5 top-5 z-10">
+                <div className="text-white pixel-text font-extrabold leading-none drop-shadow-[3px_3px_0px_rgba(44,62,80,0.7)]">
+                  <div className="text-6xl md:text-7xl">{product.pairs}</div>
+                  <div className="text-2xl md:text-3xl -mt-2">{pairsLabel}</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Product Info */}
         <div className="space-y-4 md:space-y-6">
+          {product.heading && (
+            <div className="inline-flex items-center gap-2 bg-white/20 border-2 border-[#2C3E50] shadow-[3px_3px_0px_0px_#2C3E50] px-3 py-2 pixel-text font-extrabold text-[#2C3E50]">
+              <span className="w-2.5 h-2.5 bg-[#E74C3C] border-2 border-[#2C3E50] animate-pulse" />
+              {product.heading}
+            </div>
+          )}
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#2C3E50] pixel-text uppercase mb-2">
               {product.name}

@@ -4,34 +4,20 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ShopHeader from "../components/shop/ShopHeader";
 import PixelSeparator from "../components/shop/PixelSeparator";
-import ProductGrid from "../components/shop/ProductGrid";
-import ProductCarousel from "../components/shop/ProductCarousel";
 import { SHOP_PRODUCTS, SHOP_SIZES } from "../data/shop";
+import PixelBoxesBackground from "../components/PixelBoxesBackground";
+import ProductRowCarousel from "../components/shop/ProductRowCarousel";
 
 export default function Shop() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0);
     const [openDropdowns, setOpenDropdowns] = useState({});
     const [selectedSizes, setSelectedSizes] = useState({});
 
     const products = SHOP_PRODUCTS;
 
-    // Products to show in grid (first 3)
-    const gridProducts = products.slice(0, 3);
-    // Remaining products for carousel
-    const carouselProducts = products.slice(3);
-
-    // Auto-rotate carousel for remaining products
-    useEffect(() => {
-        if (carouselProducts.length > 0) {
-            const interval = setInterval(() => {
-                setCurrentIndex((prev) => (prev + 1) % carouselProducts.length);
-            }, 5000); // Change every 5 seconds
-
-            return () => clearInterval(interval);
-        }
-    }, [carouselProducts.length]);
+    const whiteProducts = products.filter((p) => p.color !== "black");
+    const blackProducts = products.filter((p) => p.color === "black");
 
     useEffect(() => {
         const handleScroll = () => {
@@ -53,22 +39,6 @@ export default function Shop() {
             return () => document.removeEventListener('mousedown', handleClickOutside);
         }
     }, [openDropdowns]);
-
-    const nextSlide = () => {
-        if (carouselProducts.length > 0) {
-            setCurrentIndex((prev) => (prev + 1) % carouselProducts.length);
-        }
-    };
-
-    const prevSlide = () => {
-        if (carouselProducts.length > 0) {
-            setCurrentIndex((prev) => (prev - 1 + carouselProducts.length) % carouselProducts.length);
-        }
-    };
-
-    const goToSlide = (index) => {
-        setCurrentIndex(index);
-    };
 
     const toggleDropdown = (productId) => {
         setOpenDropdowns(prev => ({
@@ -107,48 +77,46 @@ export default function Shop() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div className="min-h-screen bg-gradient-to-b from-[#64DEF7] via-[#81ECD7] to-[#B7ECBD]">
-                <Navbar
-                    isScrolled={isScrolled}
-                    mobileMenuOpen={mobileMenuOpen}
-                    onToggleMobile={() => setMobileMenuOpen((open) => !open)}
-                />
+            <div className="relative min-h-screen bg-gradient-to-b from-[#64DEF7] via-[#81ECD7] to-[#B7ECBD] overflow-hidden">
+                <PixelBoxesBackground />
 
-                <ShopHeader />
+                <div className="relative z-10">
+                    <Navbar
+                        isScrolled={isScrolled}
+                        mobileMenuOpen={mobileMenuOpen}
+                        onToggleMobile={() => setMobileMenuOpen((open) => !open)}
+                    />
 
-                <PixelSeparator />
+                    <ShopHeader />
 
-                <ProductGrid
-                    products={gridProducts}
-                    sizes={sizes}
-                    openDropdowns={openDropdowns}
-                    selectedSizes={selectedSizes}
-                    onToggleDropdown={toggleDropdown}
-                    onSelectSize={selectSize}
-                    onClearSize={clearSize}
-                />
-
-                {/* Section Separator with Pixel Blocks */}
-                {carouselProducts.length > 0 && (
                     <PixelSeparator />
-                )}
 
-                {/* Carousel Section for Remaining Products */}
-                <ProductCarousel
-                    products={carouselProducts}
-                    currentIndex={currentIndex}
-                    sizes={sizes}
-                    openDropdowns={openDropdowns}
-                    selectedSizes={selectedSizes}
-                    onPrev={prevSlide}
-                    onNext={nextSlide}
-                    onGoToSlide={goToSlide}
-                    onToggleDropdown={toggleDropdown}
-                    onSelectSize={selectSize}
-                    onClearSize={clearSize}
-                />
+                    <ProductRowCarousel
+                        title="ALL WHITES"
+                        products={whiteProducts}
+                        sizes={sizes}
+                        openDropdowns={openDropdowns}
+                        selectedSizes={selectedSizes}
+                        onToggleDropdown={toggleDropdown}
+                        onSelectSize={selectSize}
+                        onClearSize={clearSize}
+                        intervalMs={5200}
+                    />
 
-                <Footer />
+                    <ProductRowCarousel
+                        title="ALL BLACKS"
+                        products={blackProducts}
+                        sizes={sizes}
+                        openDropdowns={openDropdowns}
+                        selectedSizes={selectedSizes}
+                        onToggleDropdown={toggleDropdown}
+                        onSelectSize={selectSize}
+                        onClearSize={clearSize}
+                        intervalMs={5200}
+                    />
+
+                    <Footer />
+                </div>
             </div>
         </>
     );

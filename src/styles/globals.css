@@ -352,6 +352,11 @@ body {
   animation: scanlines 1.1s linear infinite;
 }
 
+/* Make a white shoe look like an all-black variant (used when no black single shoe asset exists) */
+.shoe-black {
+  filter: invert(1) brightness(0.55) contrast(1.35);
+}
+
 /* CTA arrow sweep (visible from-left travel inside a small lane) */
 .hero-cta-arrow-lane {
   position: relative;
