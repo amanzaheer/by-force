@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import SizeSelector from "./SizeSelector";
 
 export default function ProductCard({
@@ -6,13 +7,24 @@ export default function ProductCard({
   index,
   dropdownKey,
   isDropdownOpen,
-  selectedSize,
+  selectedCounts,
   sizes,
   onToggleDropdown,
-  onSelectSize,
+  onSetSizeCounts,
   onClearSize,
 }) {
   const pairsLabel = product.pairs === 1 ? "PAIR" : "PAIRS";
+  const maxQty = typeof product.pairs === "number" ? product.pairs : 1;
+  const [justAdded, setJustAdded] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const counts = selectedCounts ?? {};
+  const totalSelected = useMemo(
+    () => Object.values(counts).reduce((sum, n) => sum + (Number(n) || 0), 0),
+    [counts]
+  );
+  const remaining = Math.max(0, maxQty - totalSelected);
+  const canAdd = totalSelected === maxQty && maxQty > 0;
   const boxCount = typeof product.pairs === "number" ? product.pairs : 0;
   const renderBoxCount = Math.min(boxCount, 12);
   const cols = renderBoxCount > 6 ? 6 : renderBoxCount;
@@ -21,16 +33,17 @@ export default function ProductCard({
 
   return (
     <div
-      className="group h-full min-h-[640px]  flex flex-col bg-white/14 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-[0_18px_40px_rgba(44,62,80,0.18)] hover:shadow-[0_22px_55px_rgba(44,62,80,0.22)] transition-all duration-500 relative overflow-hidden animate-slide-up opacity-0 hover:scale-[0.97]"
+      className="group h-full min-h-[640px] flex flex-col bg-white/14 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-[0_18px_40px_rgba(44,62,80,0.18)] hover:shadow-[0_22px_55px_rgba(44,62,80,0.22)] transition-all duration-500 relative overflow-visible animate-slide-up opacity-0 hover:scale-[0.97]"
       style={{
         animationDelay: `${index * 0.15}s`,
         animationFillMode: "forwards",
       }}
     >
-      {/* subtle scanlines */}
-      <div className="pointer-events-none absolute inset-0 opacity-20 pixel-scanlines animate-scanlines" />
-      {/* hover shine */}
-      <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+      {/* Visual overlays (clipped) */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+        <div className="absolute inset-0 opacity-20 pixel-scanlines animate-scanlines" />
+        <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+      </div>
 
       {/* Badge */}
       <div className="absolute top-3 right-3 z-20 bg-[#E74C3C] text-white px-3 py-1.5 pixel-text font-bold text-xs border-2 border-[#2C3E50] shadow-[2px_2px_0px_0px_#2C3E50]">
@@ -142,21 +155,47 @@ export default function ProductCard({
           <SizeSelector
             dropdownKey={dropdownKey}
             isOpen={isDropdownOpen}
-            selectedSize={selectedSize}
+            maxQty={maxQty}
+            selectedCounts={counts}
             sizes={sizes}
-            listMaxHeight="190px"
+            listMaxHeight="240px"
+            dropdownPlacement="top"
             labelClassName="block text-[#2C3E50] pixel-text font-extrabold mb-1.5 text-xs uppercase tracking-wider"
             buttonClassName="w-full px-4 py-2.5 bg-white/90 text-[#2C3E50] pixel-text font-extrabold text-sm border-2 border-[#2C3E50]/70 shadow-[2px_2px_0px_0px_#2C3E50] hover:shadow-[3px_3px_0px_0px_#2C3E50] hover:border-[#4A90E2] transition-all duration-200 focus:outline-none flex items-center justify-between cursor-pointer rounded-lg"
             iconSize={16}
             onToggle={onToggleDropdown}
-            onSelect={onSelectSize}
-            onClear={onClearSize}
+            onSetCounts={(nextCounts) => onSetSizeCounts(dropdownKey, nextCounts)}
+            onClear={() => onClearSize(dropdownKey)}
           />
 
+          {!canAdd && (
+            <div className="text-xs text-[#2C3E50] pixel-text font-bold">
+              Select {remaining} more {remaining === 1 ? "size" : "sizes"} ({totalSelected}/{maxQty})
+            </div>
+          )}
+
           {/* Add to Cart Button */}
-          <button className="group/btn relative w-full bg-gradient-to-b from-[#4A90E2] to-[#3A7BC8] hover:from-[#5AA2EA] hover:to-[#3A7BC8] text-white px-4 py-2.5 font-extrabold text-sm pixel-text uppercase transition-all duration-200 shadow-[0_10px_25px_rgba(44,62,80,0.18)] hover:shadow-[0_14px_32px_rgba(44,62,80,0.22)] active:scale-95 overflow-hidden focus:outline-none cursor-pointer rounded-lg">
+          <button
+            type="button"
+            disabled={!canAdd}
+            onClick={() => {
+              if (!canAdd) {
+                setShowError(true);
+                setTimeout(() => setShowError(false), 600);
+                return;
+              }
+              // lightweight "add to cart" behavior (can be wired to a real cart later)
+              setJustAdded(true);
+              setTimeout(() => setJustAdded(false), 900);
+              onClearSize(dropdownKey);
+            }}
+            className={`group/btn relative w-full px-4 py-2.5 font-extrabold text-sm pixel-text uppercase transition-all duration-200 overflow-hidden focus:outline-none rounded-lg ${canAdd
+              ? "bg-gradient-to-b from-[#4A90E2] to-[#3A7BC8] hover:from-[#5AA2EA] hover:to-[#3A7BC8] text-white shadow-[0_10px_25px_rgba(44,62,80,0.18)] hover:shadow-[0_14px_32px_rgba(44,62,80,0.22)] active:scale-95 cursor-pointer"
+              : "bg-[#2C3E50]/30 text-white/70 cursor-not-allowed"
+              } ${showError ? "animate-pixel-shake" : ""}`}
+          >
             <span className="relative z-10 flex items-center justify-center gap-2">
-              Add to Cart
+              {justAdded ? "Added" : "Add to Cart"}
               <span className="text-base group-hover/btn:translate-x-1 transition-transform duration-300 ease-out">
                 →
               </span>

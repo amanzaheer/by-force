@@ -8,7 +8,7 @@ export default function ProductRowCarousel({
     openDropdowns,
     selectedSizes,
     onToggleDropdown,
-    onSelectSize,
+    onSetSizeCounts,
     onClearSize,
     speedPxPerSec = 18,
 }) {
@@ -88,10 +88,10 @@ export default function ProductRowCarousel({
                                 index={i}
                                 dropdownKey={`${product.id}-${i}`}
                                 isDropdownOpen={!!openDropdowns[`${product.id}-${i}`]}
-                                selectedSize={selectedSizes[`${product.id}-${i}`]}
+                                selectedCounts={selectedSizes[`${product.id}-${i}`]}
                                 sizes={sizes}
                                 onToggleDropdown={onToggleDropdown}
-                                onSelectSize={onSelectSize}
+                                onSetSizeCounts={onSetSizeCounts}
                                 onClearSize={onClearSize}
                             />
                         </div>

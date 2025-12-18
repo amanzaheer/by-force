@@ -12,6 +12,7 @@ export default function Shop() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [openDropdowns, setOpenDropdowns] = useState({});
+    // dropdownKey -> { [size]: qty }
     const [selectedSizes, setSelectedSizes] = useState({});
 
     const products = SHOP_PRODUCTS;
@@ -48,14 +49,8 @@ export default function Shop() {
     };
 
     const selectSize = (productId, size) => {
-        setSelectedSizes(prev => ({
-            ...prev,
-            [productId]: size
-        }));
-        setOpenDropdowns(prev => ({
-            ...prev,
-            [productId]: false
-        }));
+        // kept for backwards compatibility (single select). New multi-select uses setSizeCounts.
+        setSelectedSizes(prev => ({ ...prev, [productId]: { [size]: 1 } }));
     };
 
     const clearSize = (productId) => {
@@ -65,6 +60,13 @@ export default function Shop() {
             return next;
         });
         setOpenDropdowns(prev => ({ ...prev, [productId]: false }));
+    };
+
+    const setSizeCounts = (productId, counts) => {
+        setSelectedSizes(prev => ({
+            ...prev,
+            [productId]: counts
+        }));
     };
 
     const sizes = SHOP_SIZES;
@@ -98,7 +100,7 @@ export default function Shop() {
                         openDropdowns={openDropdowns}
                         selectedSizes={selectedSizes}
                         onToggleDropdown={toggleDropdown}
-                        onSelectSize={selectSize}
+                        onSetSizeCounts={setSizeCounts}
                         onClearSize={clearSize}
                         intervalMs={5200}
                     />
@@ -110,7 +112,7 @@ export default function Shop() {
                         openDropdowns={openDropdowns}
                         selectedSizes={selectedSizes}
                         onToggleDropdown={toggleDropdown}
-                        onSelectSize={selectSize}
+                        onSetSizeCounts={setSizeCounts}
                         onClearSize={clearSize}
                         intervalMs={5200}
                     />
